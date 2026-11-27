@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Configurações — KONEΛT</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #f4f5f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      margin: 0 auto;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      background: #ffffff;
+      color: #111;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    #screen-config {
+      background: #f8f9fa;
+    }
+
+    #screen-atividades,
+    #screen-informacoes-conta,
+    #screen-privacidade,
+    #screen-termos,
+    #screen-ajuda {
+      background: #f6f7f9;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      color: #111;
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
+    .subscreen-scroll {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .subscreen-scroll.padded {
+      padding: 18px 16px 28px;
+    }
+
+    .section-block {
+      margin-top: 20px;
+    }
+
+    .mt-20 {
+      margin-top: 20px;
+    }
+
+    /* HEADER MINIMALISTA */
+    .config-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      background: #f8f9fa;
+      flex-shrink: 0;
+    }
+
+    .config-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .config-header-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .config-brand-sub {
+      font-size: 11px;
+      font-weight: 700;
+      color: #222;
+      letter-spacing: 0.1px;
+      line-height: 1.1;
+    }
+
+    .config-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0b0b0c;
+      letter-spacing: -0.4px;
+      line-height: 1.2;
+    }
+
+    .config-gear-icon {
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sub-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: #f6f7f9;
+      border-bottom: 1px solid #e9ebef;
+      flex-shrink: 0;
+    }
+
+    .sub-header-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0b0b0c;
+    }
+
+    /* LISTA & CARDS MINIMALISTAS */
+    .config-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 16px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .config-hero-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 6px 14px;
+    }
+
+    .config-hero-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .config-hero-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111;
+      flex-shrink: 0;
+    }
+
+    .config-hero-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.25;
+    }
+
+    .config-hero-subtitle {
+      font-size: 13px;
+      color: #8e8e93;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .config-group-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #7c828d;
+      padding: 14px 4px 10px;
+    }
+
+    .config-group-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .config-item-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 54px;
+      padding: 12px 16px;
+      background: #ffffff;
+      border: 1px solid #eceef2;
+      border-radius: 16px;
+      transition: background-color 0.15s ease;
+    }
+
+    .config-item-pill:active {
+      background: #f2f4f7;
+    }
+
+    .config-item-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .config-outline-icon {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111;
+      flex-shrink: 0;
+    }
+
+    .config-item-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .config-item-title {
+      font-size: 15.5px;
+      font-weight: 500;
+      color: #111;
+      line-height: 1.25;
+    }
+
+    .config-item-sub {
+      font-size: 12px;
+      color: #8e8e93;
+    }
+
+    .chevron-right {
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* BLOQUEIOS */
+    .tabs-bar {
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      background: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 14px 0;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #8e8e93;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      color: #111;
+      border-bottom-color: #111;
+    }
+
+    .search-box {
+      padding: 12px 16px;
+      background: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      stroke: #8e8e93;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border-radius: 20px;
+      border: 1px solid #dcdde1;
+      background: #f9fafb;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .empty-msg {
+      padding: 72px 20px;
+      text-align: center;
+      color: #8e8e93;
+      font-size: 14px;
+    }
+
+    .bottom-bar {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid #e9ebef;
+      flex-shrink: 0;
+    }
+
+    .btn-block-full {
+      width: 100%;
+      height: 44px;
+      background: #efefef;
+      border: none;
+      border-radius: 10px;
+      color: #111;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* BOTTOM-SHEETS */
+    .sheet-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1500;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .sheet-backdrop.show {
+      display: flex;
+    }
+
+    .bottom-sheet {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 26px 26px 0 0;
+      padding: 12px 20px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sheet-handle {
+      width: 38px;
+      height: 4px;
+      background: #d1d5db;
+      border-radius: 999px;
+      margin: 0 auto 16px;
+    }
+
+    .sheet-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      color: #111;
+    }
+
+    .sheet-title.danger {
+      color: #df4b40;
+    }
+
+    .sheet-desc {
+      font-size: 13.5px;
+      color: #777;
+      text-align: center;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .lang-box {
+      background: #f8f9fa;
+      border: 1px solid #eef0f2;
+      border-radius: 18px;
+      margin-top: 18px;
+      overflow: hidden;
+    }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .lang-option + .lang-option {
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .lang-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .lang-flag {
+      font-size: 22px;
+    }
+
+    .radio-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+
+    .lang-option.selected .radio-circle {
+      border-color: #111;
+      background: #111;
+      box-shadow: inset 0 0 0 4px #fff;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #d1d5db;
+      transition: 0.22s ease;
+      border-radius: 999px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #ffffff;
+      transition: 0.22s ease;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    input:checked + .slider {
+      background-color: #111;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    .delete-form-group {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .delete-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .delete-input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
+      padding: 0 14px;
+      font-size: 14px;
+      outline: none;
+      background: #fafafa;
+    }
+
+    .btn-confirm-delete {
+      width: 100%;
+      height: 48px;
+      background: #e05246;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+
+    .btn-cancel-sheet {
+      width: 100%;
+      height: 48px;
+      background: #f0f1f3;
+      color: #111;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    /* SUBTELAS */
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #eceef2;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat-number {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .history-list {
+      background: #ffffff;
+      border: 1px solid #eceef2;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .history-item {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .history-item + .history-item {
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .history-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .history-date {
+      font-size: 12px;
+      color: #8e8e93;
+    }
+
+    .btn-clear-history {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+      background: #ffffff;
+      border: 1.5px dashed #f5b7b1;
+      border-radius: 14px;
+      color: #e05246;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .info-card, .faq-card {
+      background: #ffffff;
+      border: 1px solid #eceef2;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #8e8e93;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .info-divider {
+      height: 1px;
+      background: #f2f2f2;
+      margin: 12px 0;
+    }
+
+    .faq-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .faq-question {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .faq-answer {
+      font-size: 13.5px;
+      color: #666;
+      line-height: 1.45;
+    }
+
+    .support-box {
+      background: #ffffff;
+      border: 1px solid #eceef2;
+      border-radius: 18px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .support-icon-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #2c3e50;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .support-text {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.45;
+    }
+
+    .btn-support-blue {
+      background: #0d6efd;
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* TELAS LEGAIS (PRIVACIDADE & TERMOS — PRESERVADAS) */
+    .legal-top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: #f6f7f9;
+      flex-shrink: 0;
+    }
+
+    .legal-top-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0b0b0c;
+      letter-spacing: -0.3px;
+    }
+
+    .legal-scroll {
+      padding: 6px 16px 24px;
+    }
+
+    .legal-card {
+      background: #ffffff;
+      border: 1px solid #eceef2;
+      border-radius: 18px;
+      padding: 18px 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+    }
+
+    .legal-card h2 {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 10px;
+      letter-spacing: 0.2px;
+    }
+
+    .legal-card p {
+      font-size: 13.5px;
+      color: #4b5563;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .legal-card ol,
+    .legal-card ul {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+
+    .legal-card li {
+      font-size: 13.5px;
+      color: #4b5563;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .legal-card li strong {
+      color: #111827;
+    }
+
+    .legal-footer-bar {
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #111827;
+      flex-shrink: 0;
+    }
+
+    .legal-check-muted {
+      width: 17px;
+      height: 17px;
+      accent-color: #cbd5e1;
+      opacity: 0.75;
+    }
+
+    .mini-toast {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translate(-50%, -10px);
+      background: #18181b;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 2000;
+      white-space: nowrap;
+    }
+
+    .mini-toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ================= CONFIGURAÇÕES (MINIMALISTA SVG) ================= -->
+    <section id="screen-config" class="screen active">
+      <header class="config-header">
+        <div class="config-header-left">
+          <button type="button" class="icon-btn" onclick="toast('Voltar ao perfil')" aria-label="Voltar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <div class="config-header-titles">
+            <span class="config-brand-sub">Systendance</span>
+            <h1 class="config-title">Configurações</h1>
+          </div>
+        </div>
+        <div class="config-gear-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        </div>
+      </header>
+
+      <main class="config-list">
+        <!-- DESTAQUE TOPO: CENTRAL DE CONTAS -->
+        <div class="config-hero-row clickable" onclick="go('informacoes-conta')">
+          <div class="config-hero-left">
+            <div class="config-hero-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M5 20a7 7 0 0 1 14 0z"></path></svg>
+            </div>
+            <div>
+              <div class="config-hero-title">Central de contas</div>
+              <div class="config-hero-subtitle">Veja suas informações</div>
+            </div>
+          </div>
+          <div class="chevron-right">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+        </div>
+
+        <!-- GRUPO 1: COMO VOCÊ USA O KONEAT -->
+        <div class="config-group-label">Como você usa o Koneat</div>
+        <div class="config-group-list">
+          <div class="config-item-pill clickable" onclick="openNotifSheet()">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              </div>
+              <div class="config-item-text-wrap">
+                <span class="config-item-title">Notificações</span>
+                <span class="config-item-sub" id="statusNotifText" style="display:none;">Ativadas</span>
+              </div>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="openPrivacidadeContaSheet()">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path><circle cx="12" cy="16" r="1" fill="currentColor"></circle></svg>
+              </div>
+              <div class="config-item-text-wrap">
+                <span class="config-item-title">Privacidade da conta</span>
+                <span class="config-item-sub" id="statusPrivText" style="display:none;">Pública</span>
+              </div>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="openIdiomaSheet()">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><line x1="3" y1="12" x2="21" y2="12"></line><path d="M12 3a14 14 0 0 1 3.6 9 14 14 0 0 1-3.6 9 14 14 0 0 1-3.6-9 14 14 0 0 1 3.6-9z"></path></svg>
+              </div>
+              <div class="config-item-text-wrap">
+                <span class="config-item-title">Idiomas</span>
+                <span class="config-item-sub" id="subtitleIdioma" style="display:none;">Português (Brasil)</span>
+              </div>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="go('atividades')">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="19" x2="5" y2="16"></line><line x1="9.5" y1="19" x2="9.5" y2="13"></line><line x1="14" y1="19" x2="14" y2="9"></line><line x1="18.5" y1="19" x2="18.5" y2="5"></line></svg>
+              </div>
+              <span class="config-item-title">Ver minhas atividades</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRUPO 2: MAIS MOLDES ÚTEIS -->
+        <div class="config-group-label">Mais moldes úteis</div>
+        <div class="config-group-list">
+          <div class="config-item-pill clickable" onclick="go('bloqueios')">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><line x1="5.6" y1="5.6" x2="18.4" y2="18.4"></line></svg>
+              </div>
+              <span class="config-item-title">Contas bloqueadas</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="go('privacidade')">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-3.5 7-9V6l-7-3-7 3v6c0 5.5 7 9 7 9z"></path><polyline points="9.5 12 11.2 13.7 14.8 10.2"></polyline></svg>
+              </div>
+              <span class="config-item-title">Privacidade</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="go('termos')">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><polyline points="14 3 14 8 19 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line></svg>
+              </div>
+              <span class="config-item-title">Termos</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRUPO 3: OPÇÕES PESSOAIS E SUPORTE -->
+        <div class="config-group-label">Opções pessoais e suporte</div>
+        <div class="config-group-list">
+          <div class="config-item-pill clickable" onclick="openDeleteSheet()">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 20 7"></polyline><path d="M18 7l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7"></path><path d="M9 7V4h6v3"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              </div>
+              <span class="config-item-title">Deletar minha conta</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="go('ajuda')">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.5a2.6 2.6 0 0 1 5 1c0 1.7-2.5 2.4-2.5 2.4"></path><circle cx="12" cy="16.5" r="0.8" fill="currentColor"></circle></svg>
+              </div>
+              <span class="config-item-title">Pedir ajuda</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="config-item-pill clickable" onclick="openLogoutSheet()">
+            <div class="config-item-left">
+              <div class="config-outline-icon">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"></path><polyline points="16 16 20 12 16 8"></polyline><line x1="11" y1="12" x2="20" y2="12"></line></svg>
+              </div>
+              <span class="config-item-title">Quero sair</span>
+            </div>
+            <div class="chevron-right">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- BOTTOM-SHEET: NOTIFICAÇÕES -->
+      <div class="sheet-backdrop" id="sheetNotif" onclick="if(event.target===this) closeNotifSheet()">
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <h2 class="sheet-title">Notificações</h2>
+          <p class="sheet-desc">Gerencie os alertas de curtidas, comentários e seguidores.</p>
+          <div class="lang-box">
+            <div class="lang-option">
+              <div class="lang-left"><span>Ativar notificações</span></div>
+              <label class="switch">
+                <input type="checkbox" id="toggleNotif" checked onchange="updateNotifStatus()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM-SHEET: PRIVACIDADE DA CONTA -->
+      <div class="sheet-backdrop" id="sheetPrivConta" onclick="if(event.target===this) closePrivacidadeContaSheet()">
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <h2 class="sheet-title">Privacidade da conta</h2>
+          <p class="sheet-desc">Em uma conta privada, apenas seguidores aprovados veem suas publicações.</p>
+          <div class="lang-box">
+            <div class="lang-option">
+              <div class="lang-left"><span>Conta privada</span></div>
+              <label class="switch">
+                <input type="checkbox" id="togglePrivate" onchange="updatePrivStatus()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM-SHEET: IDIOMA -->
+      <div class="sheet-backdrop" id="sheetIdioma" onclick="if(event.target===this) closeIdiomaSheet()">
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <h2 class="sheet-title">Idiomas</h2>
+          <p class="sheet-desc">Este é o idioma do aplicativo.</p>
+          <div class="lang-box">
+            <div class="lang-option selected" data-lang="Português (Brasil)" onclick="selectIdioma(this)">
+              <div class="lang-left"><span class="lang-flag">🇧🇷</span><span>Português (Brasil)</span></div>
+              <div class="radio-circle"></div>
+            </div>
+            <div class="lang-option" data-lang="English (UK)" onclick="selectIdioma(this)">
+              <div class="lang-left"><span class="lang-flag">🇬🇧</span><span>English (UK)</span></div>
+              <div class="radio-circle"></div>
+            </div>
+            <div class="lang-option" data-lang="Español (España)" onclick="selectIdioma(this)">
+              <div class="lang-left"><span class="lang-flag">🇪🇸</span><span>Español (España)</span></div>
+              <div class="radio-circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM-SHEET: DELETAR CONTA -->
+      <div class="sheet-backdrop" id="sheetDelete" onclick="if(event.target===this) closeDeleteSheet()">
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <h2 class="sheet-title danger">Deletar minha conta</h2>
+          <p class="sheet-desc">Para sua segurança, digite sua senha de acesso para confirmar a exclusão definitiva da conta.</p>
+          <div class="delete-form-group">
+            <label class="delete-label">Digite sua senha / PIN</label>
+            <input type="password" class="delete-input" placeholder="Sua senha atual">
+          </div>
+          <button type="button" class="btn-confirm-delete" onclick="toast('Simulação: exclusão confirmada'); closeDeleteSheet();">Confirmar Exclusão</button>
+          <button type="button" class="btn-cancel-sheet" onclick="closeDeleteSheet()">Cancelar</button>
+        </div>
+      </div>
+
+      <!-- BOTTOM-SHEET: QUERO SAIR -->
+      <div class="sheet-backdrop" id="sheetLogout" onclick="if(event.target===this) closeLogoutSheet()">
+        <div class="bottom-sheet">
+          <div class="sheet-handle"></div>
+          <h2 class="sheet-title">Sair da conta</h2>
+          <p class="sheet-desc">Deseja encerrar sua sessão atual no Koneat?</p>
+          <button type="button" class="btn-confirm-delete" onclick="toast('Sessão encerrada'); closeLogoutSheet();">Sair agora</button>
+          <button type="button" class="btn-cancel-sheet" onclick="closeLogoutSheet()">Cancelar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MOLDE: BLOQUEIOS ================= -->
+    <section id="screen-bloqueios" class="screen">
+      <header class="sub-header">
+        <button type="button" class="icon-btn" onclick="go('config')" aria-label="Voltar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <h1 class="sub-header-title">Contas bloqueadas</h1>
+      </header>
+      <div class="tabs-bar">
+        <button type="button" class="tab-btn active" onclick="switchBlockTab(event, 'tab-bloqueadas')">Bloqueadas</button>
+        <button type="button" class="tab-btn" onclick="switchBlockTab(event, 'tab-restritas')">Restritas</button>
+      </div>
+      <div class="search-box">
+        <div class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" class="search-input" placeholder="Pesquisar contas">
+        </div>
+      </div>
+      <div class="subscreen-scroll">
+        <div id="tab-bloqueadas" class="tab-panel active"><div class="empty-msg">Nenhuma conta bloqueada.</div></div>
+        <div id="tab-restritas" class="tab-panel"><div class="empty-msg">Nenhuma conta restrita.</div></div>
+      </div>
+      <div class="bottom-bar">
+        <button type="button" class="btn-block-full" onclick="go('config')">Guardar alterações</button>
+      </div>
+    </section>
+
+    <!-- ================= MOLDE: ATIVIDADES ================= -->
+    <section id="screen-atividades" class="screen">
+      <header class="sub-header">
+        <button type="button" class="icon-btn" onclick="go('config')" aria-label="Voltar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <h1 class="sub-header-title">Minhas atividades</h1>
+      </header>
+      <main class="subscreen-scroll padded">
+        <h2 class="section-title">Resumo da conta</h2>
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">Publicações</span></div>
+          <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">Total Interações</span></div>
+          <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">❤️ Curtidas</span></div>
+          <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">💬 Comentários</span></div>
+          <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">🔁 Reposts</span></div>
+          <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">🏷️ Marcações</span></div>
+        </div>
+        <div class="section-block">
+          <h2 class="section-title">Histórico de ações</h2>
+          <div class="history-list">
+            <div class="history-item"><span class="history-text">Configurações de perfil atualizadas</span><span class="history-date">Hoje</span></div>
+            <div class="history-item"><span class="history-text">Conta criada no Koneat</span><span class="history-date">Recentemente</span></div>
+          </div>
+          <button type="button" class="btn-clear-history" onclick="toast('Histórico limpo')">Limpar histórico de atividades</button>
+        </div>
+      </main>
+    </section>
+
+    <!-- ================= MOLDE: CENTRAL DE CONTAS / INFORMAÇÕES ================= -->
+    <section id="screen-informacoes-conta" class="screen">
+      <header class="sub-header">
+        <button type="button" class="icon-btn" onclick="go('config')" aria-label="Voltar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <h1 class="sub-header-title">Central de contas</h1>
+      </header>
+      <main class="subscreen-scroll padded">
+        <div class="info-card">
+          <div class="info-item"><span class="info-label">NOME DE USUÁRIO</span><span class="info-value">@eributtler</span></div>
+          <div class="info-divider"></div>
+          <div class="info-item"><span class="info-label">NOME DA CONTA</span><span class="info-value">Usuário Koneat</span></div>
+          <div class="info-divider"></div>
+          <div class="info-item"><span class="info-label">PRIVACIDADE DA CONTA</span><span class="info-value">Pública</span></div>
+          <div class="info-divider"></div>
+          <div class="info-item"><span class="info-label">DATA DE NASCIMENTO</span><span class="info-value">Não informada</span></div>
+          <div class="info-divider"></div>
+          <div class="info-item"><span class="info-label">GÊNERO</span><span class="info-value">Não informado</span></div>
+        </div>
+      </main>
+    </section>
+
+    <!-- ================= MOLDE: PRIVACIDADE (PRESERVADO) ================= -->
+    <section id="screen-privacidade" class="screen">
+      <header class="legal-top-header">
+        <button type="button" class="icon-btn" onclick="go('config')" aria-label="Voltar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <h1 class="legal-top-title">Política de Privacidade</h1>
+      </header>
+      <main class="subscreen-scroll legal-scroll">
+        <section class="legal-card">
+          <h2>POLÍTICA DE PRIVACIDADE — KONEAT START</h2>
+          <p>O KONEAT lite respeita a privacidade dos usuários e busca tratar seus dados pessoais de forma transparente, segura e compatível com a legislação aplicável, incluindo a Lei Geral de Proteção de Dados Pessoais (LGPD).</p>
+          <ol>
+            <li><strong>Dados coletados:</strong> A plataforma poderá tratar dados fornecidos pelo usuário durante o cadastro e o uso do serviço, bem como informações técnicas para funcionamento e segurança.</li>
+            <li><strong>Finalidades do tratamento:</strong> Os dados poderão ser utilizados para administrar contas, disponibilizar funcionalidades, prestar suporte e cumprir obrigações legais.</li>
+            <li><strong>Publicidade:</strong> Quando houver publicidade personalizada, o KONEAT informará as práticas aplicáveis e respeitará os requisitos legais e as escolhas dos usuários.</li>
+            <li><strong>Compartilhamento:</strong> Os dados poderão ser compartilhados com prestadores de serviços necessários à operação da plataforma ou autoridades com fundamento legal.</li>
+            <li><strong>Segurança e conservação:</strong> Adotamos medidas técnicas e administrativas razoáveis para proteger os dados pessoais.</li>
+            <li><strong>Direitos dos usuários:</strong> O usuário poderá solicitar informações sobre o tratamento de seus dados e exercer direitos como acesso, correção e exclusão.</li>
+            <li><strong>Exclusão da conta:</strong> O usuário poderá solicitar a exclusão da conta pelos meios disponibilizados pela plataforma.</li>
+          </ol>
+        </section>
+      </main>
+      <div class="legal-footer-bar">
+        <input type="checkbox" id="chkPrivacidade" class="legal-check-muted" checked disabled>
+        <label for="chkPrivacidade">Eu concordo com a Política de Privacidade.</label>
+      </div>
+    </section>
+
+    <!-- ================= MOLDE: TERMOS (PRESERVADO) ================= -->
+    <section id="screen-termos" class="screen">
+      <header class="legal-top-header">
+        <button type="button" class="icon-btn" onclick="go('config')" aria-label="Voltar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <h1 class="legal-top-title">Termos e Políticas</h1>
+      </header>
+      <main class="subscreen-scroll legal-scroll">
+        <section class="legal-card">
+          <h2>TERMOS DE USO — KONEAT START</h2>
+          <p>Bem-vindo ao KONEAT Lite, uma rede social criada para conectar pessoas, compartilhar conteúdos e promover interações em um ambiente seguro e respeitoso.</p>
+          <p>Ao criar uma conta ou utilizar a plataforma, você declara que leu e concorda com estes Termos de Uso e com as políticas complementares do KONEAT.</p>
+          <ol>
+            <li><strong>Uso da plataforma:</strong> O usuário compromete-se a utilizar o KONEAT de maneira legal, responsável e respeitosa, sem prejudicar outros usuários ou comprometer a segurança da rede.</li>
+            <li><strong>Informações verdadeiras:</strong> É proibido utilizar a plataforma para fraudes, falsidade de identidade, personificação de terceiros ou criação de perfis destinados a enganar outras pessoas.</li>
+            <li><strong>Responsabilidade pelo conteúdo:</strong> Cada usuário é responsável pelo conteúdo que publica, incluindo textos, fotos, vídeos, comentários e mensagens, devendo respeitar a legislação aplicável e os direitos de terceiros.</li>
+            <li><strong>Cumprimento das regras:</strong> O KONEAT poderá remover conteúdos, limitar funcionalidades, suspender ou encerrar contas que violem estes Termos ou as políticas da plataforma.</li>
+            <li><strong>Atualizações:</strong> Estes Termos poderão ser atualizados para acompanhar mudanças na plataforma, na legislação e nas medidas de segurança.</li>
+          </ol>
+        </section>
+
+        <section class="legal-card">
+          <h2>DIRETRIZES DA COMUNIDADE</h2>
+          <p>O KONEAT Lite valoriza a liberdade de expressão, o respeito e a convivência entre pessoas com opiniões diferentes.</p>
+          <p><strong>Não permitimos:</strong></p>
+          <ul>
+            <li>Ofensas direcionadas, humilhação, assédio ou perseguição a outros usuários.</li>
+            <li>Ameaças, intimidação ou incentivo à violência.</li>
+            <li>Discurso de ódio ou ataques contra pessoas por características protegidas pela legislação.</li>
+            <li>Divulgação de informações privadas de terceiros sem autorização.</li>
+            <li>Perfis falsos utilizados para enganar, fraudar ou prejudicar outras pessoas.</li>
+            <li>Conteúdos que incentivem atividades ilegais ou violem os direitos de terceiros.</li>
+          </ul>
+        </section>
+
+        <section class="legal-card">
+          <h2>POLÍTICA DE CONTEÚDO E SEGURANÇA</h2>
+          <p>Para proteger a comunidade, o KONEAT Lite não permite a publicação, distribuição ou promoção de determinados conteúdos proibidos:</p>
+          <ol>
+            <li>Exploração ou abuso sexual infantil.</li>
+            <li>Conteúdo sexual ilegal ou não consensual.</li>
+            <li>Ameaças sérias ou incentivo à violência.</li>
+            <li>Fraudes, golpes, phishing, malware e links maliciosos.</li>
+            <li>Spam, solicitações fraudulentas e manipulação de métricas.</li>
+          </ol>
+        </section>
+
+        <section class="legal-card">
+          <h2>POLÍTICA DE PUBLICIDADE</h2>
+          <p>O KONEAT Lite permite campanhas publicitárias e ações comerciais autorizadas, com o objetivo de conectar empresas, profissionais, marcas e público.</p>
+          <ul>
+            <li><strong>Transparência:</strong> Anúncios deverão ser identificados como publicidade ou conteúdo patrocinado.</li>
+            <li><strong>Práticas proibidas:</strong> Não são permitidos anúncios que promovam golpes, produtos ilegais ou alegações enganosas.</li>
+          </ul>
+        </section>
+      </main>
+      <div class="legal-footer-bar">
+        <input type="checkbox" id="chkTermos" class="legal-check-muted" checked disabled>
+        <label for="chkTermos">Eu concordo com os Termos de Uso do Koneat.</label>
+      </div>
+    </section>
+
+    <!-- ================= MOLDE: AJUDA ================= -->
+    <section id="screen-ajuda" class="screen">
+      <header class="sub-header">
+        <button type="button" class="icon-btn" onclick="go('config')" aria-label="Voltar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <h1 class="sub-header-title">Pedir ajuda</h1>
+      </header>
+      <main class="subscreen-scroll padded">
+        <h2 class="section-title">Perguntas Frequentes</h2>
+        <div class="faq-card">
+          <div class="faq-item"><span class="faq-question">Como editar as informações do meu perfil?</span><span class="faq-answer">Acesse seu Perfil, toque em "Editar perfil" e altere nome, foto e bio.</span></div>
+          <div class="info-divider"></div>
+          <div class="faq-item"><span class="faq-question">Como ativar a Conta Privada?</span><span class="faq-answer">Em Configurações, abra "Privacidade da conta" e ative a chave.</span></div>
+        </div>
+        <h2 class="section-title mt-20">Precisa de mais ajuda?</h2>
+        <div class="support-box">
+          <div class="support-icon-circle">✉️</div>
+          <p class="support-text">Nossa equipe de suporte está pronta para te ajudar no Koneat.</p>
+          <button type="button" class="btn-support-blue" onclick="toast('Suporte acionado')">Falar com o Suporte</button>
+        </div>
+      </main>
+    </section>
+
+    <div id="miniToast" class="mini-toast"></div>
+  </div>
+
+  <script>
+    function go(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('screen-' + screenId);
+      if (target) target.classList.add('active');
+    }
+
+    function openNotifSheet() { document.getElementById('sheetNotif').classList.add('show'); }
+    function closeNotifSheet() { document.getElementById('sheetNotif').classList.remove('show'); }
+    function updateNotifStatus() {
+      const checked = document.getElementById('toggleNotif').checked;
+      const sub = document.getElementById('statusNotifText');
+      sub.textContent = checked ? 'Ativadas' : 'Desativadas';
+      sub.style.display = 'block';
+    }
+
+    function openPrivacidadeContaSheet() { document.getElementById('sheetPrivConta').classList.add('show'); }
+    function closePrivacidadeContaSheet() { document.getElementById('sheetPrivConta').classList.remove('show'); }
+    function updatePrivStatus() {
+      const checked = document.getElementById('togglePrivate').checked;
+      const sub = document.getElementById('statusPrivText');
+      sub.textContent = checked ? 'Privada' : 'Pública';
+      sub.style.display = 'block';
+    }
+
+    function openIdiomaSheet() { document.getElementById('sheetIdioma').classList.add('show'); }
+    function closeIdiomaSheet() { document.getElementById('sheetIdioma').classList.remove('show'); }
+    function selectIdioma(el) {
+      document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      const sub = document.getElementById('subtitleIdioma');
+      sub.textContent = el.dataset.lang;
+      sub.style.display = 'block';
+      closeIdiomaSheet();
+    }
+
+    function openDeleteSheet() { document.getElementById('sheetDelete').classList.add('show'); }
+    function closeDeleteSheet() { document.getElementById('sheetDelete').classList.remove('show'); }
+
+    function openLogoutSheet() { document.getElementById('sheetLogout').classList.add('show'); }
+    function closeLogoutSheet() { document.getElementById('sheetLogout').classList.remove('show'); }
+
+    function switchBlockTab(e, tabId) {
+      document.querySelectorAll('#screen-bloqueios .tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#screen-bloqueios .tab-panel').forEach(c => c.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function toast(msg) {
+      const el = document.getElementById('miniToast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(window._t);
+      window._t = setTimeout(() => el.classList.remove('show'), 1800);
+    }
+  </script>
+</body>
+</html>
